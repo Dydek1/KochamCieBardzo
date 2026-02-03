@@ -1,51 +1,51 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Dla Dagmary mojej kochanej niuni</title>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dla Dagmary</title>
 <style>
 body {
   margin: 0;
-  height: 100vh;
-  overflow: hidden;
   font-family: cursive, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
   background: linear-gradient(135deg, #ff7aa2, #ff3d6e);
+  overflow: hidden;
+  position: relative;
   text-align: center;
 }
 
-/* Karta w środku */
+/* Karta */
 .card {
   background: white;
   padding: 30px;
   border-radius: 20px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+  max-width: 350px;
+  width: 90%;
+  position: relative;
   z-index: 2;
-  max-width: 320px;
+}
+
+.card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 20px;
 }
 
 h1 {
-  margin-bottom: 15px;
-  animation: pulse 1.6s infinite;
+  font-family: cursive, sans-serif;
+  margin-bottom: 20px;
 }
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-<img src="IMG_3430.jpeg" alt="Dla Ciebie" style="max-width:100%; height:auto; border-radius:12px;">
 
 .buttons {
   display: flex;
-  gap: 15px;
-  justify-content: center;
-  margin-top: 10px;
+  justify-content: space-between;
+  gap: 10px;
 }
 
 button {
@@ -54,95 +54,92 @@ button {
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: 0.25s;
+  transition: all 0.25s ease;
 }
 
 #tak {
-  background: #2ecc71;
+  background-color: #2ecc71;
   color: white;
 }
 
 #nie {
-  background: #e74c3c;
+  background-color: #e74c3c;
   color: white;
 }
 
-/* serduszka */
+/* Serduszka */
 .heart {
   position: absolute;
-  color: rgba(255,255,255,0.7);
   font-size: 20px;
-  animation: float 6s linear infinite;
+  color: rgba(255,255,255,0.7);
+  animation: float linear infinite;
+  pointer-events: none;
 }
 
 @keyframes float {
   0% {
-    transform: translateY(100vh);
+    transform: translateY(100vh) rotate(0deg);
     opacity: 0;
   }
   20% { opacity: 1; }
   100% {
-    transform: translateY(-10vh);
+    transform: translateY(-10vh) rotate(360deg);
     opacity: 0;
   }
 }
 </style>
 </head>
-
 <body>
 
-<div class="card">
-  <img src="https://i.imgur.com/6RLVbQx.png" />
+<div class="card" id="card">
+  <img src="IMG_3430.jpeg" alt="Dla Ciebie" id="firstImage">
   <h1>Zostaniesz moją walentynką?</h1>
-
   <div class="buttons">
-    <button id="yes">TAK</button>
-    <button id="no">NIE</button>
+    <button id="tak">TAK</button>
+    <button id="nie">NIE</button>
   </div>
 </div>
 
 <script>
-const yesBtn = document.getElementById("yes");
-const noBtn = document.getElementById("no");
+const takBtn = document.getElementById("tak");
+const nieBtn = document.getElementById("nie");
+const card = document.getElementById("card");
 
 let scale = 1;
+const maxScale = 2.5;
 
-/* rosnący TAK */
-noBtn.addEventListener("click", () => {
-  scale += 0.4;
-  yesBtn.style.transform = `scale(${scale})`;
-
-  /* lekka ucieczka NIE */
-  noBtn.style.position = "relative";
-  noBtn.style.left = Math.random() * 40 - 20 + "px";
-  noBtn.style.top = Math.random() * 20 - 10 + "px";
-});
-
-/* finał po kliknięciu TAK */
-yesBtn.addEventListener("click", () => {
-  document.body.innerHTML = `
-    <div style="color:white;font-size:36px;text-align:center">
-      Super😎❤️🥰<br><br>
-    </div>
-  `;
-});
-
-/* generowanie serduszek w tle */
+// Funkcja tworząca latające serduszko
 function createHeart() {
   const heart = document.createElement("div");
   heart.className = "heart";
   heart.innerText = "❤️";
-
   heart.style.left = Math.random() * 100 + "vw";
   heart.style.fontSize = (15 + Math.random() * 25) + "px";
   heart.style.animationDuration = (4 + Math.random() * 4) + "s";
-
   document.body.appendChild(heart);
-
-  setTimeout(() => heart.remove(), 7000);
+  setTimeout(() => heart.remove(), 8000);
 }
 
+// Tworzymy serduszka co 300ms
 setInterval(createHeart, 300);
+
+// Kliknięcie NIE
+nieBtn.addEventListener("click", () => {
+  scale += 0.2;
+  if(scale > maxScale) scale = maxScale;
+  takBtn.style.transform = `scale(${scale})`;
+
+  // lekki ruch przycisku NIE, żeby nie nachodził
+  nieBtn.style.transform = `translateX(${Math.random()*20-10}px) translateY(${Math.random()*10-5}px)`;
+});
+
+// Kliknięcie TAK
+takBtn.addEventListener("click", () => {
+  card.innerHTML = `
+    <img src="IMG_3431.jpeg" alt="Dla Ciebie" style="max-width:100%; height:auto; border-radius:12px; margin-bottom:20px;">
+    <h1>Super 😎❤️🥰</h1>
+  `;
+});
 </script>
 
 </body>
